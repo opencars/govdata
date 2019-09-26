@@ -1,0 +1,62 @@
+[
+  {
+    "ID": "3019269018686985",
+    "OVD": "ВАСИЛЬКІВСЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП В КИЇВСЬКІЙ ОБЛАСТІ ",
+    "BRAND": "QINGQI - QM 200-2D (Мотоцикл)",
+    "COLOR": "ЧОРНИЙ",
+    "VEHICLENUMBER": "АА7508АА",
+    "BODYNUMBER": "LAEMN240X8B932421",
+    "CHASSISNUMBER": "",
+    "ENGINENUMBER": "",
+    "THEFT_DATA": "2019-09-25T00:00:00",
+    "INSERT_DATE": "2019-09-26T00:31:09"
+  },
+  {
+    "ID": "3019269610847004",
+    "OVD": "ПОДІЛЬСЬКЕ УПРАВЛІННЯ ПОЛІЦІЇ ГУНП В М. КИЄВІ",
+    "BRAND": "LEADER - ML150-BWS (Мопед)",
+    "COLOR": "ЧЕРВОНИЙ",
+    "VEHICLENUMBER": "АІ3512АВ",
+    "BODYNUMBER": "",
+    "CHASSISNUMBER": "L2BB05523JB110041",
+    "ENGINENUMBER": "1P57QMJ3J9080041",
+    "THEFT_DATA": "2019-09-25T00:00:00",
+    "INSERT_DATE": "2019-09-26T16:58:09"
+  },
+  {
+    "ID": "3019273190983625",
+    "OVD": "ЛУЦЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП У ВОЛИНСЬКІЙ ОБЛАСТІ",
+    "BRAND": "GEON - 12 (Мотоцикл)",
+    "COLOR": "ЧЕРВОНИЙ",
+    "VEHICLENUMBER": "00000",
+    "BODYNUMBER": "",
+    "CHASSISNUMBER": "",
+    "ENGINENUMBER": "111111111111",
+    "THEFT_DATA": "2019-09-30T00:00:00",
+    "INSERT_DATE": "2019-09-30T05:18:19"
+  },
+  {
+    "ID": "3019276002139498",
+    "OVD": "НЕМИШЛЯНСЬКИЙ  ВІДДІЛ ПОЛІЦІЇ ГУНП В ХАРКІВСЬКІЙ ОБЛАСТІ",
+    "BRAND": "NISSAN - NAVARA (Легковий автотранспорт)",
+    "COLOR": "СІРИЙ",
+    "VEHICLENUMBER": "АХ3263ЕМ",
+    "BODYNUMBER": "",
+    "CHASSISNUMBER": "VSKCVND40U0082317",
+    "ENGINENUMBER": "",
+    "THEFT_DATA": "2019-10-01T00:00:00",
+    "INSERT_DATE": "2019-10-03T00:03:33"
+  },
+  {
+    "ID": "3019277726492110",
+    "OVD": "УМАНСЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП В ЧЕРКАСЬКІЙ ОБЛАСТІ.",
+    "BRAND": "SUZUKI - LETS (Мопед)",
+    "COLOR": "СІРИЙ",
+    "VEHICLENUMBER": "ВЕАА9212",
+    "BODYNUMBER": "",
+    "CHASSISNUMBER": "CA1KA317268",
+    "ENGINENUMBER": "A148333270",
+    "THEFT_DATA": "2019-10-04T00:00:00",
+    "INSERT_DATE": "2019-10-04T20:10:49"
+  }
+]
