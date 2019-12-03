@@ -6,8 +6,7 @@ import (
 	"time"
 )
 
-// TODO: Ability to handle errors, we need more elegant solution.
-func listen(id string, ids []string, revisions chan<- Revision) {
+func listen(id string, last time.Time, revisions chan<- Revision) {
 	for {
 		resource, err := DefaultClient.ResourceShow(context.Background(), id)
 		if err != nil {
@@ -16,9 +15,10 @@ func listen(id string, ids []string, revisions chan<- Revision) {
 			continue
 		}
 
-		for i := len(resource.Revisions) - 1 - len(ids); i >= 0; i-- {
-			revisions <- resource.Revisions[i]
-			ids = append(ids, resource.Revisions[i].ID)
+		for i := len(resource.Revisions) - 1; i >= 0; i-- {
+			if resource.Revisions[i].ResourceCreated.After(last) {
+				revisions <- resource.Revisions[i]
+			}
 		}
 
 		<-time.After(3 * time.Minute)
@@ -26,8 +26,8 @@ func listen(id string, ids []string, revisions chan<- Revision) {
 }
 
 // Subscribe starts listening revisions and dispatch them into a channel.
-func Subscribe(id string, ids ...string) <-chan Revision {
+func Subscribe(id string, last time.Time) <-chan Revision {
 	revisions := make(chan Revision)
-	go listen(id, ids, revisions)
+	go listen(id, last, revisions)
 	return revisions
 }

@@ -1,6 +1,11 @@
 package govdata
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"fmt"
+	"strings"
+	"time"
+)
 
 // Response is a general structure of platform response.
 type Response struct {
@@ -13,6 +18,33 @@ type Resource struct {
 	PackageID string     `json:"package_id"`
 }
 
+// TimeFormat is default time format of the government website.
+const TimeFormat = "2006-01-02 15:04:05"
+
+// Time is almost the same as time.Time, but has behaves differently on JSON serialization.
+type Time struct {
+	time.Time
+}
+
+// UnmarshalJSON overrides JSON deserialization.
+func (ct *Time) UnmarshalJSON(b []byte) (err error) {
+	s := strings.Trim(string(b), "\"")
+	if s == "null" {
+		ct.Time = time.Time{}
+		return
+	}
+	ct.Time, err = time.Parse(TimeFormat, s)
+	return
+}
+
+// MarshalJSON overrides JSON serialization.
+func (ct *Time) MarshalJSON() ([]byte, error) {
+	if ct.Time.UnixNano() == (time.Time{}).UnixNano() {
+		return []byte("null"), nil
+	}
+	return []byte(fmt.Sprintf("\"%s\"", ct.Time.Format(TimeFormat))), nil
+}
+
 // Revision is an represents changes of a resource.
 type Revision struct {
 	ID              string  `json:"id"`
@@ -21,6 +53,6 @@ type Revision struct {
 	Format          string  `json:"format"`
 	URL             string  `json:"url"`
 	FileHashSum     *string `json:"file_hash_sum"`
-	ResourceCreated string  `json:"resource_created"`
+	ResourceCreated Time    `json:"resource_created"`
 	Size            int     `json:"size"`
 }
