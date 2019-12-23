@@ -21,6 +21,7 @@ func listen(id string, last time.Time, revisions chan<- Revision) {
 			}
 		}
 
+		last = time.Now()
 		<-time.After(3 * time.Minute)
 	}
 }
