@@ -41,6 +41,7 @@ func TestClient_ResourceShow(t *testing.T) {
 	require.NoError(t, err)
 
 	expected := Resource{
+		ID: "1235678-1234-1234-1234-000123456789",
 		Revisions: []Revision{
 			{
 				ID:              "12112019_2",

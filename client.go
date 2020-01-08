@@ -36,6 +36,12 @@ func NewClient() *Client {
 	}
 }
 
+// PackageShow returns information about package by it's unique id.
+// For more information: https://data.gov.ua/pages/aboutuser2.
+func PackageShow(id string) (*Package, error) {
+	return DefaultClient.PackageShow(context.Background(), id)
+}
+
 // ResourceShow returns information about resource by it's unique id.
 // For more information: https://data.gov.ua/pages/aboutuser2.
 func ResourceShow(id string) (*Resource, error) {
@@ -47,6 +53,34 @@ func ResourceShow(id string) (*Resource, error) {
 // for downloading updated version of a resource.
 func ResourceRevision(pkg, resource, revision string) (io.ReadCloser, error) {
 	return DefaultClient.ResourceRevision(context.Background(), pkg, resource, revision)
+}
+
+// PackageShow returns information about package by it's unique id.
+// For more information: https://data.gov.ua/pages/aboutuser2.
+func (client *Client) PackageShow(ctx context.Context, id string) (*Package, error) {
+	url := BaseURL + "/api/3/action/package_show?id=" + id
+
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
+	if err != nil {
+		return nil, fmt.Errorf("failed to build request: %w", err)
+	}
+
+	resp, err := client.Do(req)
+	if err != nil {
+		return nil, fmt.Errorf("failed to send request: %w", err)
+	}
+
+	var response Response
+	if err := json.NewDecoder(resp.Body).Decode(&response); err != nil {
+		return nil, fmt.Errorf("failed to decode response: %w", err)
+	}
+
+	var pkg Package
+	if err := json.Unmarshal(response.Result, &pkg); err != nil {
+		return nil, fmt.Errorf("failed to unmarshal package: %w", err)
+	}
+
+	return &pkg, nil
 }
 
 // ResourceShow returns information about resource by it's unique id.

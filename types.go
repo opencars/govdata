@@ -12,8 +12,15 @@ type Response struct {
 	Result json.RawMessage `json:"result"`
 }
 
+// Package represents detailed information about package and it's changes.
+type Package struct {
+	Resources []Resource `json:"resources"`
+}
+
 // Resource represents detailed information about resource and it's changes.
 type Resource struct {
+	ID        string     `json:"id"`
+	Name      string     `json:"name"`
 	Revisions []Revision `json:"resource_revisions"`
 	PackageID string     `json:"package_id"`
 }
