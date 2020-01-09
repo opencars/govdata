@@ -1,7 +1,17 @@
-# Govdata
+# GovData SDK
 
-[![CircleCI](https://circleci.com/gh/opencars/govdata.svg?style=svg)](https://circleci.com/gh/opencars/govdata)
-[![Go Report Card](https://goreportcard.com/badge/github.com/opencars/govdata)](https://goreportcard.com/report/github.com/opencars/govdata)
+[godoc]: https://godoc.org/github.com/opencars/govdata
+[godoc-img]: https://godoc.org/github.com/opencars/govdata?status.svg
+[ci]: https://circleci.com/gh/opencars/govdata
+[ci-img]: https://circleci.com/gh/opencars/govdata.svg?style=svg
+[goreport]: https://goreportcard.com/report/github.com/opencars/govdata
+[goreport-img]: https://goreportcard.com/badge/github.com/opencars/govdata
+[version]: https://img.shields.io/github/v/tag/opencars/govdata?sort=semver
+
+[![Circle CI][ci-img]][ci]
+[![Docs][godoc-img]][godoc]
+[![Go Report][goreport-img]][goreport]
+[![Version][version]][version]
 
 :office: Golang client for Official Government Data Portal
 
@@ -14,7 +24,7 @@ This library contains simple golang bindings for REST API of [Government Data Po
 Run tests
 
 ```sh
-$ go test -race -v ./...
+go test -race -v ./...
 ```
 
 ## License
