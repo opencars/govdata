@@ -17,12 +17,13 @@ func listen(resourceID string, last time.Time, revisions chan<- Revision) {
 
 		for i := len(resource.Revisions) - 1; i >= 0; i-- {
 			if resource.Revisions[i].ResourceCreated.After(last) {
+				resource.Revisions[i].ResourceID = resourceID
 				revisions <- resource.Revisions[i]
 			}
 		}
 
 		last = time.Now()
-		<-time.After(3 * time.Minute)
+		<-time.After(10 * time.Minute)
 	}
 }
 
@@ -33,7 +34,7 @@ func Subscribe(resourceID string, last time.Time) <-chan Revision {
 	return revisions
 }
 
-func listenPackage(packageID string, last time.Time, revisions chan<- Revision) {
+func listenPackage(packageID string, lastModified map[string]time.Time, revisions chan<- Revision) {
 	for {
 		pkg, err := DefaultClient.PackageShow(context.Background(), packageID)
 		if err != nil {
@@ -43,7 +44,14 @@ func listenPackage(packageID string, last time.Time, revisions chan<- Revision) 
 		}
 
 		for i := 0; i < len(pkg.Resources); i++ {
-			resource, err := DefaultClient.ResourceShow(context.Background(), pkg.Resources[i].ID)
+			rid := pkg.Resources[i].ID
+
+			modified, ok := lastModified[rid]
+			if ok && !pkg.Resources[i].LastModified.After(modified) {
+				continue
+			}
+
+			resource, err := DefaultClient.ResourceShow(context.Background(), rid)
 			if err != nil {
 				log.Println("ResourceShow:", err)
 				<-time.After(30 * time.Second)
@@ -51,20 +59,17 @@ func listenPackage(packageID string, last time.Time, revisions chan<- Revision) 
 				continue
 			}
 
-			for i := len(resource.Revisions) - 1; i >= 0; i-- {
-				if resource.Revisions[i].ResourceCreated.After(last) {
-					revisions <- resource.Revisions[i]
-				}
-			}
-
-			last = time.Now()
-			<-time.After(3 * time.Minute)
+			resource.Revisions[0].ResourceID = rid
+			revisions <- resource.Revisions[0]
+			lastModified[rid] = pkg.Resources[i].LastModified.Time
 		}
+
+		<-time.After(60 * time.Minute)
 	}
 }
 
-func SubscribePackage(packageID string, last time.Time) <-chan Revision {
+func SubscribePackage(packageID string, lastModified map[string]time.Time) <-chan Revision {
 	revisions := make(chan Revision)
-	go listenPackage(packageID, last, revisions)
+	go listenPackage(packageID, lastModified, revisions)
 	return revisions
 }

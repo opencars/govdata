@@ -10,9 +10,6 @@ import (
 	"time"
 )
 
-// TODO:
-// - Add support of context.Context to each of method.
-
 // DefaultURL is a URL of official Ukrainian government data platform.
 const DefaultURL = "https://data.gov.ua"
 

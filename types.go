@@ -19,47 +19,73 @@ type Package struct {
 
 // Resource represents detailed information about resource and it's changes.
 type Resource struct {
-	ID        string     `json:"id"`
-	Name      string     `json:"name"`
-	Revisions []Revision `json:"resource_revisions"`
-	PackageID string     `json:"package_id"`
+	ID           string           `json:"id"`
+	Name         string           `json:"name"`
+	Revisions    []Revision       `json:"resource_revisions"`
+	PackageID    string           `json:"package_id"`
+	LastModified LastModifiedTime `json:"last_modified"`
+}
+
+// Revision is an represents changes of a resource.
+type Revision struct {
+	ResourceID      string              `json:"resource_id"`
+	ID              string              `json:"id"`
+	MimeType        string              `json:"mimetype"`
+	Name            string              `json:"name"`
+	Format          string              `json:"format"`
+	URL             string              `json:"url"`
+	FileHashSum     *string             `json:"file_hash_sum"`
+	ResourceCreated ResourceCreatedTime `json:"resource_created"`
+	Size            int                 `json:"size"`
 }
 
 // TimeFormat is default time format of the government website.
-const TimeFormat = "2006-01-02 15:04:05"
+const (
+	ResourceCreatedTimeFormat = "2006-01-02 15:04:05"
+	LastModifiedTimeFormat    = "2006-01-02T15:04:05.999999"
+)
 
-// Time is almost the same as time.Time, but has behaves differently on JSON serialization.
-type Time struct {
-	time.Time
-}
+type (
+	// ResourceCreatedTime is almost the same as time.Time, but has behaves differently on JSON serialization.
+	ResourceCreatedTime struct{ time.Time }
+	// LastModifiedTime is almost the same as time.Time, but has behaves differently on JSON serialization.
+	LastModifiedTime struct{ time.Time }
+)
 
 // UnmarshalJSON overrides JSON deserialization.
-func (ct *Time) UnmarshalJSON(b []byte) (err error) {
+func (ct *ResourceCreatedTime) UnmarshalJSON(b []byte) (err error) {
 	s := strings.Trim(string(b), "\"")
 	if s == "null" {
 		ct.Time = time.Time{}
 		return
 	}
-	ct.Time, err = time.Parse(TimeFormat, s)
+	ct.Time, err = time.Parse(ResourceCreatedTimeFormat, s)
 	return
 }
 
 // MarshalJSON overrides JSON serialization.
-func (ct *Time) MarshalJSON() ([]byte, error) {
+func (ct *ResourceCreatedTime) MarshalJSON() ([]byte, error) {
 	if ct.Time.UnixNano() == (time.Time{}).UnixNano() {
 		return []byte("null"), nil
 	}
-	return []byte(fmt.Sprintf("\"%s\"", ct.Time.Format(TimeFormat))), nil
+	return []byte(fmt.Sprintf("\"%s\"", ct.Time.Format(ResourceCreatedTimeFormat))), nil
 }
 
-// Revision is an represents changes of a resource.
-type Revision struct {
-	ID              string  `json:"id"`
-	MimeType        string  `json:"mimetype"`
-	Name            string  `json:"name"`
-	Format          string  `json:"format"`
-	URL             string  `json:"url"`
-	FileHashSum     *string `json:"file_hash_sum"`
-	ResourceCreated Time    `json:"resource_created"`
-	Size            int     `json:"size"`
+// UnmarshalJSON overrides JSON deserialization.
+func (ct *LastModifiedTime) UnmarshalJSON(b []byte) (err error) {
+	s := strings.Trim(string(b), "\"")
+	if s == "null" {
+		ct.Time = time.Time{}
+		return
+	}
+	ct.Time, err = time.Parse(LastModifiedTimeFormat, s)
+	return
+}
+
+// MarshalJSON overrides JSON serialization.
+func (ct *LastModifiedTime) MarshalJSON() ([]byte, error) {
+	if ct.Time.UnixNano() == (time.Time{}).UnixNano() {
+		return []byte("null"), nil
+	}
+	return []byte(fmt.Sprintf("\"%s\"", ct.Time.Format(LastModifiedTimeFormat))), nil
 }
