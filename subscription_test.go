@@ -67,36 +67,63 @@ func TestSubscribePackage(t *testing.T) {
 	timestamp, err := time.Parse(ResourceCreatedTimeFormat, "2019-11-12 01:00:00")
 	require.NoError(t, err)
 
-	expected := []Revision{
-		{
-			ID:              "12112019_2",
-			ResourceID:      "1235678-1234-1234-1234-000123456789",
-			MimeType:        "application/json",
-			Name:            "example.json",
-			Format:          "JSON",
-			URL:             "https://data.gov.ua/dataset/00000000-0000-0000-0000-000000000000/resource/1235678-1234-1234-1234-000123456789/revision/12112019_2",
-			ResourceCreated: ResourceCreatedTime{timestamp.Add(12 * time.Hour)},
-			Size:            10000000,
+	// expected := []Revision{
+	// 	{
+	// 		ID:              "12112019_2",
+	// 		ResourceID:      "1235678-1234-1234-1234-000123456789",
+	// 		MimeType:        "application/json",
+	// 		Name:            "example.json",
+	// 		Format:          "JSON",
+	// 		URL:             "https://data.gov.ua/dataset/00000000-0000-0000-0000-000000000000/resource/1235678-1234-1234-1234-000123456789/revision/12112019_2",
+	// 		ResourceCreated: ResourceCreatedTime{timestamp.Add(12 * time.Hour)},
+	// 		Size:            10000000,
+	// 	},
+	// 	{
+	// 		ID:              "12112019_1",
+	// 		ResourceID:      "1235678-1234-1234-1234-000123456789",
+	// 		MimeType:        "application/json",
+	// 		Name:            "example.json",
+	// 		Format:          "JSON",
+	// 		URL:             "https://data.gov.ua/dataset/00000000-0000-0000-0000-000000000000/resource/1235678-1234-1234-1234-000123456789/revision/12112019_1",
+	// 		ResourceCreated: ResourceCreatedTime{timestamp},
+	// 		Size:            20000000,
+	// 	},
+	// }
+
+	expected := Resource{
+		ID:   "1235678-1234-1234-1234-000123456789",
+		Name: "example.json",
+		Revisions: []Revision{
+			{
+				ID:              "12112019_2",
+				ResourceID:      "1235678-1234-1234-1234-000123456789",
+				MimeType:        "application/json",
+				Name:            "example.json",
+				Format:          "JSON",
+				URL:             "https://data.gov.ua/dataset/00000000-0000-0000-0000-000000000000/resource/1235678-1234-1234-1234-000123456789/revision/12112019_2",
+				ResourceCreated: ResourceCreatedTime{timestamp.Add(12 * time.Hour)},
+				Size:            10000000,
+			},
+			{
+				ID:              "12112019_1",
+				ResourceID:      "1235678-1234-1234-1234-000123456789",
+				MimeType:        "application/json",
+				Name:            "example.json",
+				Format:          "JSON",
+				URL:             "https://data.gov.ua/dataset/00000000-0000-0000-0000-000000000000/resource/1235678-1234-1234-1234-000123456789/revision/12112019_1",
+				ResourceCreated: ResourceCreatedTime{timestamp},
+				Size:            20000000,
+			},
 		},
-		{
-			ID:              "12112019_1",
-			ResourceID:      "1235678-1234-1234-1234-000123456789",
-			MimeType:        "application/json",
-			Name:            "example.json",
-			Format:          "JSON",
-			URL:             "https://data.gov.ua/dataset/00000000-0000-0000-0000-000000000000/resource/1235678-1234-1234-1234-000123456789/revision/12112019_1",
-			ResourceCreated: ResourceCreatedTime{timestamp},
-			Size:            20000000,
-		},
+		PackageID:    "00000000-0000-0000-0000-000000000000",
+		LastModified: LastModifiedTime{timestamp.Add(12 * time.Hour)},
 	}
 
-	revisions := SubscribePackage("00000000-0000-0000-0000-000000000000", map[string]time.Time{
-		"1235678-1234-1234-1234-000123456789": timestamp.Add(-time.Second),
-	})
+	events := SubscribePackage("00000000-0000-0000-0000-000000000000", map[string]time.Time{})
 
 	select {
-	case r := <-revisions:
-		assert.Equal(t, expected[0], r)
+	case r := <-events:
+		assert.Equal(t, expected, r)
 	case <-time.After(time.Second):
 		t.Error("expected revision")
 	}

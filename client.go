@@ -108,6 +108,7 @@ func (client *Client) ResourceShow(ctx context.Context, id string) (*Resource, e
 	for i := range resource.Revisions {
 		parts := strings.Split(resource.Revisions[i].URL, "/")
 		resource.Revisions[i].ID = parts[len(parts)-1]
+		resource.Revisions[i].ResourceID = resource.ID
 	}
 
 	return &resource, nil

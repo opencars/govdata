@@ -49,9 +49,11 @@ func TestClient_ResourceShow(t *testing.T) {
 	expected := Resource{
 		ID:           "1235678-1234-1234-1234-000123456789",
 		LastModified: LastModifiedTime{timestamp.Add(12 * time.Hour)},
+		Name:         "example.json",
 		Revisions: []Revision{
 			{
 				ID:              "12112019_2",
+				ResourceID:      "1235678-1234-1234-1234-000123456789",
 				MimeType:        "application/json",
 				Name:            "example.json",
 				Format:          "JSON",
@@ -61,6 +63,7 @@ func TestClient_ResourceShow(t *testing.T) {
 			},
 			{
 				ID:              "12112019_1",
+				ResourceID:      "1235678-1234-1234-1234-000123456789",
 				MimeType:        "application/json",
 				Name:            "example.json",
 				Format:          "JSON",
