@@ -6,6 +6,7 @@
     "id": "1235678-1234-1234-1234-000123456789",
     "last_modified": "2019-11-12T13:00:00.000000",
     "name": "example.json",
+    "url": "https://data.gov.ua/dataset/00000000-0000-0000-0000-00000000000/resource/1235678-1234-1234-1234-000123456789/download/example.json",
     "resource_revisions": [
       {
         "mimetype": "application/json",

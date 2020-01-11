@@ -67,32 +67,10 @@ func TestSubscribePackage(t *testing.T) {
 	timestamp, err := time.Parse(ResourceCreatedTimeFormat, "2019-11-12 01:00:00")
 	require.NoError(t, err)
 
-	// expected := []Revision{
-	// 	{
-	// 		ID:              "12112019_2",
-	// 		ResourceID:      "1235678-1234-1234-1234-000123456789",
-	// 		MimeType:        "application/json",
-	// 		Name:            "example.json",
-	// 		Format:          "JSON",
-	// 		URL:             "https://data.gov.ua/dataset/00000000-0000-0000-0000-000000000000/resource/1235678-1234-1234-1234-000123456789/revision/12112019_2",
-	// 		ResourceCreated: ResourceCreatedTime{timestamp.Add(12 * time.Hour)},
-	// 		Size:            10000000,
-	// 	},
-	// 	{
-	// 		ID:              "12112019_1",
-	// 		ResourceID:      "1235678-1234-1234-1234-000123456789",
-	// 		MimeType:        "application/json",
-	// 		Name:            "example.json",
-	// 		Format:          "JSON",
-	// 		URL:             "https://data.gov.ua/dataset/00000000-0000-0000-0000-000000000000/resource/1235678-1234-1234-1234-000123456789/revision/12112019_1",
-	// 		ResourceCreated: ResourceCreatedTime{timestamp},
-	// 		Size:            20000000,
-	// 	},
-	// }
-
 	expected := Resource{
 		ID:   "1235678-1234-1234-1234-000123456789",
 		Name: "example.json",
+		URL:  "https://data.gov.ua/dataset/00000000-0000-0000-0000-00000000000/resource/1235678-1234-1234-1234-000123456789/download/example.json",
 		Revisions: []Revision{
 			{
 				ID:              "12112019_2",

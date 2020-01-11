@@ -23,6 +23,7 @@ type Resource struct {
 	Name         string           `json:"name"`
 	Revisions    []Revision       `json:"resource_revisions"`
 	PackageID    string           `json:"package_id"`
+	URL          string           `json:"url"`
 	LastModified LastModifiedTime `json:"last_modified"`
 }
 
