@@ -33,7 +33,7 @@ func Subscribe(resourceID string, last time.Time) <-chan Revision {
 	return revisions
 }
 
-func listenPackage(packageID string, lastModified map[string]time.Time, events chan<- interface{}) {
+func listenPackage(packageID string, lastModified map[string]time.Time, events chan<- Resource) {
 	for {
 		pkg, err := DefaultClient.PackageShow(context.Background(), packageID)
 		if err != nil {
@@ -71,7 +71,7 @@ func listenPackage(packageID string, lastModified map[string]time.Time, events c
 			}
 
 			// Notify about latest changes in the resource.
-			events <- resource.Revisions[0]
+			events <- *resource
 			lastModified[rid] = pkg.Resources[i].LastModified.Time
 		}
 
@@ -79,8 +79,8 @@ func listenPackage(packageID string, lastModified map[string]time.Time, events c
 	}
 }
 
-func SubscribePackage(packageID string, lastModified map[string]time.Time) <-chan interface{} {
-	events := make(chan interface{})
+func SubscribePackage(packageID string, lastModified map[string]time.Time) <-chan Resource {
+	events := make(chan Resource)
 	go listenPackage(packageID, lastModified, events)
 	return events
 }
