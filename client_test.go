@@ -48,6 +48,7 @@ func TestClient_ResourceShow(t *testing.T) {
 
 	expected := Resource{
 		ID:           "1235678-1234-1234-1234-000123456789",
+		MimeType:     "application/json",
 		LastModified: LastModifiedTime{timestamp.Add(12 * time.Hour)},
 		Name:         "example.json",
 		URL:          "https://data.gov.ua/dataset/00000000-0000-0000-0000-00000000000/resource/1235678-1234-1234-1234-000123456789/download/example.json",

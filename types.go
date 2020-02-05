@@ -20,6 +20,7 @@ type Package struct {
 // Resource represents detailed information about resource and it's changes.
 type Resource struct {
 	ID           string           `json:"id"`
+	MimeType     string           `json:"mimetype"`
 	Name         string           `json:"name"`
 	Revisions    []Revision       `json:"resource_revisions"`
 	PackageID    string           `json:"package_id"`
